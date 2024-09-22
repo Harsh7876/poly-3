@@ -19,64 +19,66 @@ In this project, we have to build a circuit using `circom`, compile a `Verifier 
 ```
 pragma circom 2.0.0;
 
+/*This circuit template checks that c is the multiplication of a and b.*/  
 
-template MyAwesomeCircuit () {  
+template harsh79node () 
+{  
 
-   // input signal  
-   signal input a;  
-   signal input b;
+    //signal inputs
+    signal input a;  
+    signal input b; 
 
-   // gate signal
-   signal x;
-   signal y;
-   
-   // output signal
-   signal output q;
+    //signals from gates
+    signal x;  
+    signal y; 
 
-   // components
-   component andGate = AND();
-   component orGate = OR();
-   component notGate = NOT();
+    //final signal output
+    signal output Q; 
+    
 
-   // circuit  
+    //component gate used to create custom circuit
+     component andGate = AND();
+     component notGate = NOT();
+     component orGate = OR();
 
-   andGate.a <== a;
-   andGate.b <== b;
-   x <== andGate.out;
+    //circuit logic
+    andGate.A <== a;
+    andGate.B <== b;
+    x <== andGate.out;
+  
+    notGate.A <== b;
+    y <== notGate.out;
 
-   notGate.in <== b;
-   y <== notGate.out;
-
-   orGate.a <== x;
-   orGate.b <== y;
-   q <== orGate.out;
-
+    orGate.A <==x;
+    orGate.B <==y;
+    Q <== orGate.out; 
+    
 }
 
 template AND() {
-    signal input a;
-    signal input b;
-    signal output out;
+  signal input A;
+  signal input B;
+  signal output out;
 
-    out <== a*b;
-}
-
-template OR() {
-    signal input a;
-    signal input b;
-    signal output out;
-
-    out <== a + b - a*b;
+  out <== A * B;
 }
 
 template NOT() {
-    signal input in;
-    signal output out;
+  signal input A;
+  signal output out;
 
-    out <== 1 + in - 2*in;
+  out <== 1 + A - 2 * A;
 }
 
-component main = MyAwesomeCircuit();
+template OR() {
+  signal input A;
+  signal input B;
+  signal output out;
+
+  out <== A + B - A * B;
+}
+
+component main = harsh79node ();
 ```
 
 &nbsp;
